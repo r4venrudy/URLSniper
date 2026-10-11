@@ -1,121 +1,63 @@
-##################################################
-#           Rudy Discord URL Sniper              #
-##################################################
+<p align="center"><img src="docs/banner.svg" alt="URLSniper — An experimental Discord event and vanity-URL prototype." width="100%"></p>
 
-Description:
--------------
-Rudy Discord URL Sniper is a high-speed Discord automation utility designed to
-retrieve and resolve Discord server invite URLs as soon as they become
-available. The project focuses on extreme execution speed and minimal latency,
-prioritizing rapid detection over analysis or enrichment.
+<p align="center">
+  <img src="https://img.shields.io/badge/Runtime-Node.js%20%2B%20Go-55e0b6?style=flat-square&labelColor=101b28" alt="Node.js + Go">
+  <img src="https://img.shields.io/badge/Docs-source_reviewed-55e0b6?style=flat-square&labelColor=101b28" alt="Documentation based on source review">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-55e0b6?style=flat-square&labelColor=101b28" alt="MIT license"></a>
+</p>
 
-This tool is engineered for performance testing, automation research, and
-closed-environment experimentation. It is not an OSINT tool and does not perform
-data collection, scanning, or intelligence analysis.
+<p align="center"><strong>An experimental Discord event and vanity-URL prototype.</strong></p>
 
---------------------------------------------------
+<p align="center"><a href="#overview">Overview</a> · <a href="#capabilities">Capabilities</a> · <a href="#quick-start">Quick start</a> · <a href="#implementation-notes">Implementation notes</a></p>
 
-Core Purpose:
--------------
-- Ultra-fast Discord invite URL retrieval
-- Near-instant execution timing (sub-millisecond focus)
-- Server-level invite resolution
-- Latency-optimized workflow design
+---
 
---------------------------------------------------
+## Overview
 
-Features:
----------
-1. High-Speed URL Retrieval Engine
-   - Optimized execution path
-   - Minimal logic overhead
-   - Focus on fastest possible response time
-   - Designed for competitive timing environments
+An experimental Discord gateway listener with a TLS request client and a separate Go authentication helper. The source reacts to guild events and attempts state-changing vanity-URL updates; this is an automation prototype, not a passive URL resolver.
 
-2. Passive Server Presence
-   - Operates from an existing account context
-   - No command-based interaction
-   - No message parsing or content analysis
-   - Zero OSINT functionality
+## Capabilities
 
-3. Performance-Oriented Architecture
-   - No unnecessary logging
-   - No external API dependencies
-   - No enrichment or metadata processing
-   - Built purely for speed
+| Component | What the source contains |
+| :--- | :--- |
+| `indext.js` | Gateway event handling, TLS connection management and vanity-update requests |
+| `mfa.go` | Authentication helper that writes a local token file |
+| Configuration | Local account/server/channel settings and a socket-count setting |
+| Launchers | Windows batch files for the JavaScript and Go components |
 
-4. Stability-Focused Design
-   - Handles unavailable or restricted servers
-   - Graceful failure handling
-   - No crash behavior under invalid states
+## Quick start
 
---------------------------------------------------
+Start with a **source review in an isolated development environment**. There is no package manifest or validated installation workflow in this repository. The JavaScript imports `ws` and `extract-json-from-string` in addition to Node.js built-ins; the Go helper uses the Go standard library.
 
-Requirements:
--------------
-- Node.js runtime
-- Discord environment access
-- Controlled testing environment
-- High-resolution timing support
+```bash
+git clone https://github.com/r4venrudy/URLSniper.git
+cd URLSniper
+```
 
---------------------------------------------------
+Review `indext.js`, `mfa.go` and the launchers before running anything. The file is named `indext.js`, not `index.js`. Existing configuration and authentication files must not be copied into shared examples.
 
-Installation:
--------------
-This project is intended for controlled environments only.
+## Implementation notes
 
-Clone the repository and install required dependencies as defined in the
-package configuration.
+- The TLS client currently sets `rejectUnauthorized: false`, so server certificate verification is disabled in this prototype.
+- Credential-like values are committed in the authentication/configuration files. Treat those values as exposed; revoke or rotate any that remain valid before further use. Removing values from the latest revision alone does not remove them from Git history.
+- The source makes state-changing requests to Discord and uses account/MFA-related flows. Review account ownership, platform requirements and the effect of each request before any authorized experiment.
+- No benchmark in this repository establishes sub-millisecond execution, guaranteed acquisition or production reliability. These claims are intentionally absent from this documentation.
+- This README update documents the existing source. It does not validate the automation, repair the authentication design or certify platform compatibility.
 
---------------------------------------------------
+## Project map
 
-Usage:
-------
-- The tool operates automatically once initialized
-- No user-facing commands
-- URL resolution occurs as soon as conditions are met
-- Output is returned immediately upon success
+```text
+indext.js      JavaScript event and request prototype
+mfa.go         Go authentication helper
+config.json    Local configuration; treat committed values as exposed
+mfa.json       Local token data; treat committed values as exposed
+*.bat          Windows launchers
+```
 
---------------------------------------------------
+## License
 
-Output:
--------
-- Raw Discord invite URL (if obtainable)
-- No formatting
-- No enrichment
-- No storage unless explicitly added
+[MIT](LICENSE). Preserve the attribution in the license file.
 
---------------------------------------------------
+---
 
-Performance Notes:
-------------------
-- Designed with speed as the only priority
-- No safety checks beyond stability handling
-- Benchmarking-oriented implementation
-- Execution time measured in microseconds
-
---------------------------------------------------
-
-Limitations:
-------------
-- No OSINT features
-- No analysis, scanning, or validation
-- No moderation or security functionality
-- Not designed for public deployment
-
---------------------------------------------------
-
-Ethical & Legal Notice:
------------------------
-This project is provided for educational, research, and controlled testing
-purposes only. Use must comply with all applicable platform rules, terms of
-service, and local laws. The author assumes no responsibility for misuse.
-
---------------------------------------------------
-
-License:
---------
-Provided as-is.
-No warranty, no liability.
-
---------------------------------------------------
+<p align="center">Part of the <a href="https://github.com/r4venrudy">r4venrudy</a> project collection.</p>
