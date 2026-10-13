@@ -1,0 +1,2 @@
+# Written at runtime by mfa.go; holds an account MFA token and must never be committed
+mfa.json
