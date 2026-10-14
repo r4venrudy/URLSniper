@@ -39,7 +39,7 @@ Review `indext.js`, `mfa.go` and the launchers before running anything. The file
 ## Implementation notes
 
 - The TLS client currently sets `rejectUnauthorized: false`, so server certificate verification is disabled in this prototype.
-- Credential-like values are committed in the authentication/configuration files. Treat those values as exposed; revoke or rotate any that remain valid before further use. Removing values from the latest revision alone does not remove them from Git history.
+- `mfa.json` is no longer tracked and is listed in `.gitignore`. Credential-like values were committed in earlier revisions. Treat those values as exposed; revoke or rotate any that remain valid before further use. Removing values from the latest revision alone does not remove them from Git history.
 - The source makes state-changing requests to Discord and uses account/MFA-related flows. Review account ownership, platform requirements and the effect of each request before any authorized experiment.
 - No benchmark in this repository establishes sub-millisecond execution, guaranteed acquisition or production reliability. These claims are intentionally absent from this documentation.
 - This README update documents the existing source. It does not validate the automation, repair the authentication design or certify platform compatibility.
@@ -50,7 +50,7 @@ Review `indext.js`, `mfa.go` and the launchers before running anything. The file
 indext.js      JavaScript event and request prototype
 mfa.go         Go authentication helper
 config.json    Local configuration; treat committed values as exposed
-mfa.json       Local token data; treat committed values as exposed
+mfa.json       Written by mfa.go at runtime; git-ignored (an older committed copy remains in history)
 *.bat          Windows launchers
 ```
 
